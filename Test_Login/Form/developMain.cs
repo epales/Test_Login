@@ -13,6 +13,9 @@ namespace Test_Login
 {
     public partial class developMain : Form
     {
+        //------------------------------------------------------------------------------------------------------
+        #region 변수 선언, DB 초기화
+        //------------------------------------------------------------------------------------------------------
         static DBConnection DB = new DBConnection();
         SqlConnection conn = new SqlConnection(DB.DBstr());
 
@@ -21,24 +24,35 @@ namespace Test_Login
         public string userId { get; set; }
         string dev_listCat;
         bool exit;
-
+        #endregion
+        //------------------------------------------------------------------------------------------------------
+        #region Form 이동
+        //------------------------------------------------------------------------------------------------------
         public developMain(main main)
         {
             mainForm = main;
             InitializeComponent();
         }
-
+        #endregion
+        //------------------------------------------------------------------------------------------------------
+        #region Form Load 실행
         private void developMain_Load(object sender, EventArgs e)
         {
             call_searchDate();
+
             dateTimePicker1.Value = DateTime.Today;
-            dateTimePicker2.Value = DateTime.Today; 
+            dateTimePicker2.Value = DateTime.Today;
+            
             dev_class.SelectedIndex = 0;
             dev_cat1.SelectedIndex = 0;
+
             call_developList();
             call_manager();
         }
-
+        #endregion
+        //------------------------------------------------------------------------------------------------------
+        #region Search Develop List
+        //------------------------------------------------------------------------------------------------------
         private void call_searchDate()
         {
             SqlDataAdapter adapter = new SqlDataAdapter();
@@ -54,6 +68,7 @@ namespace Test_Login
             searchDate.DisplayMember = "date";
             searchDate.ValueMember = "quary";
         }
+        //------------------------------------------------------------------------------------------------------
         private string selectDate(string date)
         {
             conn.Open();
@@ -75,7 +90,7 @@ namespace Test_Login
             
             return date;
         }
-
+        //------------------------------------------------------------------------------------------------------
         private void searchDevList(string search)
         {
             SqlDataAdapter adapter = new SqlDataAdapter();
@@ -146,7 +161,10 @@ namespace Test_Login
 
             DataGridView.DataSource = table;
         }
-
+        #endregion
+        //------------------------------------------------------------------------------------------------------
+        #region Search Requirement
+        //------------------------------------------------------------------------------------------------------
         public void call_developList()
         {
             SqlDataAdapter adapter = new SqlDataAdapter();
@@ -176,6 +194,7 @@ namespace Test_Login
             DataGridView.DataSource = table;
 
         }
+        //------------------------------------------------------------------------------------------------------
         private void call_devClassList(string devClass)
         {
             SqlDataAdapter adapter = new SqlDataAdapter();
@@ -194,6 +213,7 @@ namespace Test_Login
             dev_type.ValueMember = "dev_type";
 
         }
+        //------------------------------------------------------------------------------------------------------
         private void call_devCatList(string devClass ,string devType)
         {
             SqlDataAdapter adapter = new SqlDataAdapter();
@@ -213,7 +233,7 @@ namespace Test_Login
             dev_status.ValueMember = "dev_status";
 
         }
-
+        //------------------------------------------------------------------------------------------------------
         private void call_manager()
         {
             SqlDataAdapter adapter = new SqlDataAdapter();
@@ -230,7 +250,7 @@ namespace Test_Login
             manager.DisplayMember = "user_name";
             manager.ValueMember = "user_name";
         }
-       
+        //------------------------------------------------------------------------------------------------------
         private void del_devList(string seq)
         {
             conn.Open();
@@ -248,6 +268,7 @@ namespace Test_Login
             conn.Close();
 
         }
+        //------------------------------------------------------------------------------------------------------
         private void call_devCat2StyleList(string devcat1)
         {
             SqlDataAdapter adapter = new SqlDataAdapter();
@@ -263,6 +284,7 @@ namespace Test_Login
             dev_cat2.DataSource = table;
             dev_cat2.DisplayMember = "dev_cat2";
         }
+        //------------------------------------------------------------------------------------------------------
         private void call_devCat3StyleList(string devcat1, string devcat2)
         {
             SqlDataAdapter adapter = new SqlDataAdapter();
@@ -280,6 +302,7 @@ namespace Test_Login
             dev_cat3.DataSource = table;
             dev_cat3.DisplayMember = "dev_cat3";
         }
+        //------------------------------------------------------------------------------------------------------
         private void call_devCat4StyleList(string devcat1, string devcat2, string devcat3)
         {
             SqlDataAdapter adapter = new SqlDataAdapter();
@@ -300,6 +323,7 @@ namespace Test_Login
             dev_cat4.DataSource = table;
             dev_cat4.DisplayMember = "dev_cat4";
         }
+        //------------------------------------------------------------------------------------------------------
         private void call_devlistCat()
         {
             conn.Open();
@@ -331,9 +355,11 @@ namespace Test_Login
             Console.WriteLine("카테고리" + dev_listCat);
             reader.Close();
             conn.Close();
-
-
         }
+        #endregion
+        //------------------------------------------------------------------------------------------------------
+        #region Copy Develop List
+        //------------------------------------------------------------------------------------------------------
         private void copy_DevelopList(string num)
         {
 
@@ -369,7 +395,6 @@ namespace Test_Login
             string scheduler_yn="";
             string migration_yn="";
             string bizbank_yn="";
-
 
             if (((string)reader["scheduler_yn"]).Equals("Y"))
             {   
@@ -430,7 +455,7 @@ namespace Test_Login
                                                                                   "@bizbank_date)";
 
             cmd = new SqlCommand(sqlstr, conn);
-            //
+            
             cmd.Parameters.AddWithValue("@dev_class", dev_class);
             cmd.Parameters.AddWithValue("@dev_type", dev_type);
             cmd.Parameters.AddWithValue("@document_num", document_num);
@@ -476,13 +501,14 @@ namespace Test_Login
                 cmd.Parameters.AddWithValue("@bizbank_yn", "N");
             }
 
-
-
             cmd.Parameters.AddWithValue("@bizbank_date", bizbank_date);
 
             cmd.ExecuteNonQuery();
             conn.Close();
         }
+        #endregion
+        //------------------------------------------------------------------------------------------------------
+        #region Form Closed
         private void developMain_FormClosed(object sender, FormClosedEventArgs e)
         {
             if (exit)
@@ -493,37 +519,18 @@ namespace Test_Login
             Application.Exit();
         }
 
-        private void dev_class_IndexChanged(object sender, EventArgs e)
-        {
-            dev_type.Text = "";
-            call_devClassList(dev_class.Text);
-        }
 
-        private void dev_type_IndexChanged(object sender, EventArgs e)
-        {
-            dev_status.Text = "";
-            call_devCatList(dev_class.Text, dev_type.Text);
-        }
-
-        private void Cancel_Click(object sender, EventArgs e)
-        {
-            exit = true;
-            this.Close();
-            mainForm.Visible = true;
-        }
-
-        private void dev_insert_click(object sender, EventArgs e)
-        {
-            develop_Project_Insert devIns = new develop_Project_Insert(this);
-            devIns.userId = userId;
-            devIns.ShowDialog();
-        }
-         
+        #endregion
+        //------------------------------------------------------------------------------------------------------
+        #region DataView ButtonEvent
+        //------------------------------------------------------------------------------------------------------
         private void dataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
             {
-                DataGridViewButtonCell cell = DataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewButtonCell;
+                DataGridViewButtonCell cell =
+                    DataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewButtonCell;
+
                 if (cell == null)
                 {
                     return;
@@ -548,22 +555,19 @@ namespace Test_Login
                 }
             }
         }
-        
-        private void searchDev_Click(object sender, EventArgs e)
-        {
-            string date = searchDate.Text;
-            call_devlistCat();
-            searchDevList(selectDate(date));
-        }
+        #endregion
+        //------------------------------------------------------------------------------------------------------
+        #region Text Changed Event
+        //------------------------------------------------------------------------------------------------------
 
         private void dateTimePicker2_ValueChanged(object sender, EventArgs e)
         {
-            if(dateTimePicker1.Value > dateTimePicker2.Value)
-            { 
+            if (dateTimePicker1.Value > dateTimePicker2.Value)
+            {
                 dateTimePicker1.Value = dateTimePicker2.Value;
             }
         }
-
+        //------------------------------------------------------------------------------------------------------
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
             if (dateTimePicker1.Value > dateTimePicker2.Value)
@@ -571,50 +575,90 @@ namespace Test_Login
                 dateTimePicker2.Value = dateTimePicker1.Value;
             }
         }
-
-        private void oneDay_Click(object sender, EventArgs e)
+        //------------------------------------------------------------------------------------------------------
+        private void dev_class_IndexChanged(object sender, EventArgs e)
         {
-            dateTimePicker1.Value = dateTimePicker2.Value.AddDays(-1);
+            dev_type.Text = "";
+            call_devClassList(dev_class.Text);
         }
-
-        private void oneWeek_Click(object sender, EventArgs e)
+        //------------------------------------------------------------------------------------------------------
+        private void dev_type_IndexChanged(object sender, EventArgs e)
         {
-            dateTimePicker1.Value = dateTimePicker2.Value.AddDays(-7);
+            dev_status.Text = "";
+            call_devCatList(dev_class.Text, dev_type.Text);
         }
-
-        private void oneMonth_Click(object sender, EventArgs e)
-        {
-            dateTimePicker1.Value = dateTimePicker2.Value.AddMonths(-1);
-        }
-
-        private void threeMonths_Click(object sender, EventArgs e)
-        {
-            dateTimePicker1.Value = dateTimePicker2.Value.AddMonths(-3);
-        }
-
-        private void sixMonths_Click(object sender, EventArgs e)
-        {
-            dateTimePicker1.Value = dateTimePicker2.Value.AddMonths(-6);
-        }
-
-        private void oneYear_Click(object sender, EventArgs e)
-        {
-            dateTimePicker1.Value = dateTimePicker2.Value.AddYears(-1);
-        }
-
+        //------------------------------------------------------------------------------------------------------
         private void dev_cat1_SelectedIndexChanged(object sender, EventArgs e)
         {
             call_devCat2StyleList(dev_cat1.Text);
         }
-
+        //------------------------------------------------------------------------------------------------------
         private void dev_cat2_SelectedIndexChanged(object sender, EventArgs e)
         {
             call_devCat3StyleList(dev_cat1.Text, dev_cat2.Text);
         }
-
+        //------------------------------------------------------------------------------------------------------
         private void dev_cat3_SelectedIndexChanged(object sender, EventArgs e)
         {
             call_devCat4StyleList(dev_cat1.Text, dev_cat2.Text, dev_cat3.Text);
         }
+        //------------------------------------------------------------------------------------------------------
+        #endregion
+        //------------------------------------------------------------------------------------------------------
+        #region Click Event
+        //------------------------------------------------------------------------------------------------------
+        private void searchDev_Click(object sender, EventArgs e)
+        {
+            string date = searchDate.Text;
+            call_devlistCat();
+            searchDevList(selectDate(date));
+        }
+        //------------------------------------------------------------------------------------------------------
+        private void Cancel_Click(object sender, EventArgs e)
+        {
+            exit = true;
+            this.Close();
+            mainForm.Visible = true;
+        }
+        //------------------------------------------------------------------------------------------------------
+        private void dev_insert_click(object sender, EventArgs e)
+        {
+            develop_Project_Insert devIns = new develop_Project_Insert(this);
+            devIns.userId = userId;
+            devIns.ShowDialog();
+        }
+        //------------------------------------------------------------------------------------------------------
+        private void oneDay_Click(object sender, EventArgs e)
+        {
+            dateTimePicker1.Value = dateTimePicker2.Value.AddDays(-1);
+        }
+        //------------------------------------------------------------------------------------------------------
+        private void oneWeek_Click(object sender, EventArgs e)
+        {
+            dateTimePicker1.Value = dateTimePicker2.Value.AddDays(-7);
+        }
+        //------------------------------------------------------------------------------------------------------
+        private void oneMonth_Click(object sender, EventArgs e)
+        {
+            dateTimePicker1.Value = dateTimePicker2.Value.AddMonths(-1);
+        }
+        //------------------------------------------------------------------------------------------------------
+        private void threeMonths_Click(object sender, EventArgs e)
+        {
+            dateTimePicker1.Value = dateTimePicker2.Value.AddMonths(-3);
+        }
+        //------------------------------------------------------------------------------------------------------
+        private void sixMonths_Click(object sender, EventArgs e)
+        {
+            dateTimePicker1.Value = dateTimePicker2.Value.AddMonths(-6);
+        }
+        //------------------------------------------------------------------------------------------------------
+        private void oneYear_Click(object sender, EventArgs e)
+        {
+            dateTimePicker1.Value = dateTimePicker2.Value.AddYears(-1);
+        }
+        //------------------------------------------------------------------------------------------------------
+        #endregion
+        //------------------------------------------------------------------------------------------------------
     }
 }
