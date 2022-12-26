@@ -141,11 +141,24 @@ namespace Test_Login
             ex_complete_date.Value = (DateTime)reader["ex_complete_date"];
             complete_date.Value = (DateTime)reader["complete_date"];
             fulfillment_date.Value = (DateTime)reader["fulfillment_date"];
+            bizbank_date.Value = (DateTime)reader["bizbank_date"];
             dev_class.Text = (string)reader["dev_class"];
             dev_type.Text = (string)reader["dev_type"];
             dev_status.Text = (string)reader["status"];
             dev_listCat = (string)reader["category"];
             manager = (string)reader["manage_people"];
+
+            if (((string)reader["scheduler_yn"]).Equals("Y")) {
+                scheduler_yn.Checked = true;
+            }
+            if (((string)reader["migration_yn"]).Equals("Y"))
+            {
+                migration_yn.Checked = true;
+            }
+            if (((string)reader["bizbank_yn"]).Equals("Y"))
+            {
+                bizbank_yn.Checked = true;
+            }
             reader.Close();
             
             //------------------------------------------------------------------------------------------------------
@@ -381,7 +394,7 @@ namespace Test_Login
 
             call_devCat();
             add_Click(sender, e);
-
+            Manager_check.SelectedValue = manager;
             Manager_check.SetItemChecked(Manager_check.FindStringExact(manager), true);
             
         }
@@ -529,7 +542,92 @@ namespace Test_Login
 
         private void update_Click(object sender, EventArgs e)
         {
+            conn.Open();
 
+
+
+            string sqlstr = "UPDATE DevelopList SET dev_class = @dev_class," +
+                                                "dev_type = @dev_type," +
+                                                "document_num = @document_num," +
+                                                "category = @category," +
+                                                "dev_name = @dev_name," +
+                                                "req_date = @req_date," +
+                                                "assign_date = @assign_date," +
+                                                "start_date = @start_date," +
+                                                "ex_complete_date = @ex_complete_date," +
+                                                "complete_date = @complete_date," +
+                                                "fulfillment_date = @fulfillment_date," +
+                                                "resource = @resource," +
+                                                "manage_people = @manage_people," +
+                                                "status = @status," +
+                                                "detail = @detail," +
+                                                "dev_module = @dev_module," +
+                                                "reg_id = @reg_id," +
+                                                "scheduler_yn = @scheduler_yn," +
+                                                "migration_yn = @migration_yn," +
+                                                "bizbank_yn = @bizbank_yn," +
+                                                "bizbank_date = @bizbank_date " +
+                                                "WHERE seq = @seq";
+
+            SqlCommand cmd = new SqlCommand(sqlstr, conn);
+            //
+            cmd.Parameters.AddWithValue("@seq", dev_seq);
+            cmd.Parameters.AddWithValue("@dev_class", dev_class.Text);
+            cmd.Parameters.AddWithValue("@dev_type", dev_type.Text);
+            cmd.Parameters.AddWithValue("@document_num", document_num.Text);
+            cmd.Parameters.AddWithValue("@category", dev_listCat);
+            cmd.Parameters.AddWithValue("@dev_name", dev_name.Text);
+            cmd.Parameters.AddWithValue("@req_date", start_date.Text);
+            cmd.Parameters.AddWithValue("@assign_date", start_date.Text);
+            cmd.Parameters.AddWithValue("@start_date", start_date.Text);
+            cmd.Parameters.AddWithValue("@ex_complete_date", start_date.Text);
+            cmd.Parameters.AddWithValue("@complete_date", start_date.Text);
+            cmd.Parameters.AddWithValue("@fulfillment_date", start_date.Text);
+            cmd.Parameters.AddWithValue("@resource", "");
+            cmd.Parameters.AddWithValue("@manage_people", Manager_check.SelectedValue);
+            cmd.Parameters.AddWithValue("@reg_id", reg_id.Text);
+            cmd.Parameters.AddWithValue("@status", dev_status.Text);
+            cmd.Parameters.AddWithValue("@detail", detail.Text);
+            cmd.Parameters.AddWithValue("@dev_module", dev_module.Text);
+
+            if (scheduler_yn.Checked)
+            {
+                cmd.Parameters.AddWithValue("@scheduler_yn", "Y");
+            }
+            else
+            {
+                cmd.Parameters.AddWithValue("@scheduler_yn", "N");
+            }
+
+            if (migration_yn.Checked)
+            {
+                cmd.Parameters.AddWithValue("@migration_yn", "Y");
+            }
+            else
+            {
+                cmd.Parameters.AddWithValue("@migration_yn", "N");
+            }
+
+            if (bizbank_yn.Checked)
+            {
+                cmd.Parameters.AddWithValue("@bizbank_yn", "Y");
+            }
+            else
+            {
+                cmd.Parameters.AddWithValue("@bizbank_yn", "N");
+            }
+
+
+
+            cmd.Parameters.AddWithValue("@bizbank_date", bizbank_date.Text);
+
+            cmd.ExecuteNonQuery();
+            conn.Close();
+
+            exit = true;
+            this.Close();
+            dev_Main.Visible = true;
+            dev_Main.call_developList();
         }
     }
 }
