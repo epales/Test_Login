@@ -675,7 +675,6 @@
             this.dev_cat4.Name = "dev_cat4";
             this.dev_cat4.Size = new System.Drawing.Size(121, 20);
             this.dev_cat4.TabIndex = 14;
-            this.dev_cat4.SelectedIndexChanged += new System.EventHandler(this.dev_cat4_SelectedIndexChanged);
             // 
             // dev_cat3
             // 

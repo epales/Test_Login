@@ -17,9 +17,11 @@ namespace Test_Login
         SqlConnection conn = new SqlConnection(DB.DBstr());
 
         main mainForm;
+
         public string userId { get; set; }
         string dev_listCat;
         bool exit;
+
         public developMain(main main)
         {
             mainForm = main;
@@ -36,6 +38,7 @@ namespace Test_Login
             call_developList();
             call_manager();
         }
+
         private void call_searchDate()
         {
             SqlDataAdapter adapter = new SqlDataAdapter();
@@ -331,6 +334,155 @@ namespace Test_Login
 
 
         }
+        private void copy_DevelopList(string num)
+        {
+
+            conn.Open();
+
+            string sql = "SELECT * FROM DevelopList WHERE seq = @seq";
+
+            SqlCommand cmd = new SqlCommand(sql, conn);
+
+            cmd.Parameters.AddWithValue("@seq", num);
+
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            reader.Read();
+
+            string dev_name = (string)reader["dev_name"];
+            string detail = (string)reader["detail"];
+            string dev_module = (string)reader["dev_module"];
+            string document_num = (string)reader["document_num"];
+            string reg_id = (string)reader["reg_id"];
+            DateTime req_date = (DateTime)reader["req_date"];
+            DateTime assign_date = (DateTime)reader["assign_date"];
+            DateTime start_date = (DateTime)reader["start_date"];
+            DateTime ex_complete_date = (DateTime)reader["ex_complete_date"];
+            DateTime complete_date = (DateTime)reader["complete_date"];
+            DateTime fulfillment_date = (DateTime)reader["fulfillment_date"];
+            DateTime bizbank_date = (DateTime)reader["bizbank_date"];
+            string dev_class = (string)reader["dev_class"];
+            string dev_type = (string)reader["dev_type"];
+            string dev_status = (string)reader["status"];
+            string dev_listCat = (string)reader["category"];
+            string manager = (string)reader["manage_people"];
+            string scheduler_yn="";
+            string migration_yn="";
+            string bizbank_yn="";
+
+
+            if (((string)reader["scheduler_yn"]).Equals("Y"))
+            {   
+                scheduler_yn = "Y";
+            }
+            if (((string)reader["migration_yn"]).Equals("Y"))
+            {
+                migration_yn = "Y";
+            }
+            if(((string)reader["bizbank_yn"]).Equals("Y"))
+            {
+                bizbank_yn = "Y";
+            }
+            reader.Close();
+
+            string sqlstr = "INSERT INTO DevelopList(seq," +
+                                                "dev_class," +
+                                                "dev_type," +
+                                                "document_num," +
+                                                "category," +
+                                                "dev_name," +
+                                                "req_date," +
+                                                "assign_date," +
+                                                "start_date," +
+                                                "ex_complete_date," +
+                                                "complete_date," +
+                                                "fulfillment_date," +
+                                                "resource," +
+                                                "manage_people," +
+                                                "status," +
+                                                "detail," +
+                                                "dev_module," +
+                                                "reg_id," +
+                                                "scheduler_yn," +
+                                                "migration_yn," +
+                                                "bizbank_yn," +
+                                                "bizbank_date) VALUES (NEXT VALUE FOR seq," +
+                                                                                  "@dev_class," +
+                                                                                  "@dev_type," +
+                                                                                  "@document_num," +
+                                                                                  "@category," +
+                                                                                  "@dev_name," +
+                                                                                  "@req_date," +
+                                                                                  "@assign_date," +
+                                                                                  "@start_date," +
+                                                                                  "@ex_complete_date," +
+                                                                                  "@complete_date," +
+                                                                                  "@fulfillment_date," +
+                                                                                  "@resource," +
+                                                                                  "@manage_people," +
+                                                                                  "@status," +
+                                                                                  "@detail," +
+                                                                                  "@dev_module," +
+                                                                                  "@reg_id," +
+                                                                                  "@scheduler_yn," +
+                                                                                  "@migration_yn," +
+                                                                                  "@bizbank_yn," +
+                                                                                  "@bizbank_date)";
+
+            cmd = new SqlCommand(sqlstr, conn);
+            //
+            cmd.Parameters.AddWithValue("@dev_class", dev_class);
+            cmd.Parameters.AddWithValue("@dev_type", dev_type);
+            cmd.Parameters.AddWithValue("@document_num", document_num);
+            cmd.Parameters.AddWithValue("@category", dev_listCat);
+            cmd.Parameters.AddWithValue("@dev_name", dev_name);
+            cmd.Parameters.AddWithValue("@req_date", start_date);
+            cmd.Parameters.AddWithValue("@assign_date", start_date);
+            cmd.Parameters.AddWithValue("@start_date", start_date);
+            cmd.Parameters.AddWithValue("@ex_complete_date", start_date);
+            cmd.Parameters.AddWithValue("@complete_date", start_date);
+            cmd.Parameters.AddWithValue("@fulfillment_date", start_date);
+            cmd.Parameters.AddWithValue("@resource", "");
+            cmd.Parameters.AddWithValue("@manage_people", manager);
+            cmd.Parameters.AddWithValue("@reg_id", reg_id);
+            cmd.Parameters.AddWithValue("@status", dev_status);
+            cmd.Parameters.AddWithValue("@detail", detail);
+            cmd.Parameters.AddWithValue("@dev_module", dev_module);
+
+            if (scheduler_yn.Equals("Y"))
+            {
+                cmd.Parameters.AddWithValue("@scheduler_yn", "Y");
+            }
+            else
+            {
+                cmd.Parameters.AddWithValue("@scheduler_yn", "N");
+            }
+
+            if (migration_yn.Equals("Y"))
+            {
+                cmd.Parameters.AddWithValue("@migration_yn", "N");
+            }
+            else
+            {
+                cmd.Parameters.AddWithValue("@migration_yn", "N");
+            }
+
+            if (bizbank_yn.Equals("Y"))
+            {
+                cmd.Parameters.AddWithValue("@bizbank_yn", "N");
+            }
+            else
+            {
+                cmd.Parameters.AddWithValue("@bizbank_yn", "N");
+            }
+
+
+
+            cmd.Parameters.AddWithValue("@bizbank_date", bizbank_date);
+
+            cmd.ExecuteNonQuery();
+            conn.Close();
+        }
         private void developMain_FormClosed(object sender, FormClosedEventArgs e)
         {
             if (exit)
@@ -376,7 +528,7 @@ namespace Test_Login
                 {
                     return;
                 }
-            
+                string seq = DataGridView.SelectedRows[0].Cells[3].Value.ToString();
                 if (cell.Value.Equals("수정"))
                 {
                     develop_Project_update dev_update = new develop_Project_update(this);
@@ -386,12 +538,11 @@ namespace Test_Login
                 }
                 else if (cell.Value.Equals("복사"))
                 {
-                    MessageBox.Show("복사");  
+                    copy_DevelopList(seq);
+                    call_developList();
                 }
                 else if (cell.Value.Equals("삭제"))
                 {
-                    string seq = DataGridView.SelectedRows[0].Cells[3].Value.ToString();
-                    Console.WriteLine(seq);
                     del_devList(seq);
                     call_developList();
                 }
@@ -408,8 +559,7 @@ namespace Test_Login
         private void dateTimePicker2_ValueChanged(object sender, EventArgs e)
         {
             if(dateTimePicker1.Value > dateTimePicker2.Value)
-            {
-                
+            { 
                 dateTimePicker1.Value = dateTimePicker2.Value;
             }
         }
@@ -465,11 +615,6 @@ namespace Test_Login
         private void dev_cat3_SelectedIndexChanged(object sender, EventArgs e)
         {
             call_devCat4StyleList(dev_cat1.Text, dev_cat2.Text, dev_cat3.Text);
-        }
-
-        private void dev_cat4_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }
