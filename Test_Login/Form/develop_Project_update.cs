@@ -13,7 +13,9 @@ namespace Test_Login
 {
     public partial class develop_Project_update : Form
     {
-
+        //------------------------------------------------------------------------------------------------------
+        #region 변수 선언, DB 초기화
+        //------------------------------------------------------------------------------------------------------
         static DBConnection DB = new DBConnection();
         SqlConnection conn = new SqlConnection(DB.DBstr());
 
@@ -28,12 +30,19 @@ namespace Test_Login
         int count = 0;
         bool exit;
         bool access;
+        #endregion
+        //------------------------------------------------------------------------------------------------------
+        #region Form 이동
+        //------------------------------------------------------------------------------------------------------
         public develop_Project_update(developMain devMain)
         {
             dev_Main = devMain;
             InitializeComponent();
         }
-
+        #endregion
+        //------------------------------------------------------------------------------------------------------
+        #region Call Data
+        //------------------------------------------------------------------------------------------------------
         private void call_dev_pro(string num)
         {
             //------------------------------------------------------------------------------------------------------
@@ -51,7 +60,7 @@ namespace Test_Login
             dev_type.DataSource = table;
             dev_type.DisplayMember = "dev_type";
             dev_type.ValueMember = "dev_type";
-
+            //------------------------------------------------------------------------------------------------------
             adapter = new SqlDataAdapter();
 
             sqlQuary = "SELECT * FROM [DevelopList.devCat] WHERE dev_type = @devType AND dev_class = @devClass";
@@ -84,7 +93,7 @@ namespace Test_Login
             dev_cat2.DisplayMember = "dev_cat2";
             dev_cat2.ValueMember = "dev_cat2";
             adapter = new SqlDataAdapter();
-
+            //------------------------------------------------------------------------------------------------------
             sqlQuary = "SELECT * FROM [DevelopList.devCat.Style] WHERE dev_cat1 = @dev1 " +
                                                                          "AND dev_cat2 = @dev2 ";
 
@@ -98,7 +107,7 @@ namespace Test_Login
             dev_cat3.DataSource = table;
             dev_cat3.DisplayMember = "dev_cat3";
             dev_cat3.ValueMember = "dev_cat3";
-
+            //------------------------------------------------------------------------------------------------------
             adapter = new SqlDataAdapter();
 
             sqlQuary = "SELECT * FROM [DevelopList.devCat.Style] WHERE dev_cat1 = @dev1 " +
@@ -160,10 +169,7 @@ namespace Test_Login
                 bizbank_yn.Checked = true;
             }
             reader.Close();
-            
             //------------------------------------------------------------------------------------------------------
-            
-
             sql = "SELECT * FROM [DevelopList.devCat.Style] WHERE dev_listcat = @devlistcat AND " +
                                                                  "dev_add = 1";
 
@@ -188,6 +194,7 @@ namespace Test_Login
             access = true;
             //------------------------------------------------------------------------------------------------------
         }
+        //------------------------------------------------------------------------------------------------------
         private void call_Manager()
         {
             SqlDataAdapter adapter = new SqlDataAdapter();
@@ -204,9 +211,8 @@ namespace Test_Login
             Manager_check.DataSource = table;
             Manager_check.DisplayMember = "user_name";
             Manager_check.ValueMember = "user_name";
-         
-
         }
+        //------------------------------------------------------------------------------------------------------
         private void call_devClassList(string devClass)
         {
            
@@ -224,8 +230,8 @@ namespace Test_Login
             dev_type.DataSource = table;
             dev_type.DisplayMember = "dev_type";
             dev_type.ValueMember = "dev_type";
-
         }
+        //------------------------------------------------------------------------------------------------------
         private void call_devTypeList(string devClass, string devType)
         {
             SqlDataAdapter adapter = new SqlDataAdapter();
@@ -243,8 +249,8 @@ namespace Test_Login
             dev_status.DataSource = table;
             dev_status.DisplayMember = "dev_status";
             dev_status.ValueMember = "dev_status";
-
         }
+        //------------------------------------------------------------------------------------------------------
         private void call_devCat2StyleList(string devcat1)
         {
             SqlDataAdapter adapter = new SqlDataAdapter();
@@ -260,6 +266,7 @@ namespace Test_Login
             dev_cat2.DataSource = table;
             dev_cat2.DisplayMember = "dev_cat2";
         }
+        //------------------------------------------------------------------------------------------------------
         private void call_devCat3StyleList(string devcat1, string devcat2)
         {
             SqlDataAdapter adapter = new SqlDataAdapter();
@@ -277,6 +284,7 @@ namespace Test_Login
             dev_cat3.DataSource = table;
             dev_cat3.DisplayMember = "dev_cat3";
         }
+        //------------------------------------------------------------------------------------------------------
         private void call_devCat4StyleList(string devcat1, string devcat2, string devcat3)
         {
             SqlDataAdapter adapter = new SqlDataAdapter();
@@ -297,7 +305,7 @@ namespace Test_Login
             dev_cat4.DataSource = table;
             dev_cat4.DisplayMember = "dev_cat4";
         }
-
+        //------------------------------------------------------------------------------------------------------
         private void call_devCat()
         {
             conn.Open();
@@ -347,7 +355,7 @@ namespace Test_Login
             reader.Close();
             conn.Close();
         }
-
+        //------------------------------------------------------------------------------------------------------
         private void call_devlistCat()
         {
             conn.Open();
@@ -374,173 +382,12 @@ namespace Test_Login
             }
             reader.Close();
             conn.Close();
-
-
         }
-
-        private void develop_Project_update_Load(object sender, EventArgs e)
-        {
-            
-            dev_class.SelectedIndex = 0;
-            dev_cat1.SelectedIndex = 0;
-
-            call_Manager();
-            call_dev_pro(dev_seq);
-
-            dev_cat1.Text = cat1;
-            dev_cat2.Text = cat2;
-            dev_cat3.Text = cat3;
-            dev_cat4.Text = cat4;
-
-            call_devCat();
-            add_Click(sender, e);
-            Manager_check.SelectedValue = manager;
-            Manager_check.SetItemChecked(Manager_check.FindStringExact(manager), true);
-            
-        }
-        
-        private void insert_exit_Click(object sender, EventArgs e)
-        {
-            exit = true;
-            this.Close();
-        }
-
-        private void develop_Project_update_FormClosed(object sender, FormClosedEventArgs e)
-        {
-           
-        }
-
-        private void dev_class_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if(access)
-            {
-                call_devClassList(dev_class.Text);
-            }
-            
-        }
-
-        private void dev_type_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (access)
-            {
-                call_devTypeList(dev_class.Text, dev_type.Text);
-            }
-        }
-
-        private void dev_cat1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (access)
-            {
-                call_devCat2StyleList(dev_cat1.Text);
-            }
-        }
-
-        private void dev_cat2_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (access)
-            {
-                call_devCat3StyleList(dev_cat1.Text, dev_cat2.Text);
-            }
-        }
-
-        private void dev_cat3_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (access)
-            {
-                call_devCat4StyleList(dev_cat1.Text, dev_cat2.Text, dev_cat3.Text);
-            }
-        }
-
-        private void search_Click(object sender, EventArgs e)
-        {
-            call_devCat();
-        }
-
-        private void add_Click(object sender, EventArgs e)
-        {
-            if (count == 0 && dataGridView1.Rows.Count > 0)
-            {
-                call_devlistCat();
-                dataGridView1.SelectedRows[0].DefaultCellStyle.SelectionBackColor = Color.Gray;
-                dataGridView1.SelectedRows[0].DefaultCellStyle.BackColor = Color.Gray;
-                count++;
-                Console.WriteLine(dev_listCat);
-            }
-        }
-
-        private void delete_Click(object sender, EventArgs e)
-        {
-            if (count == 1 && dataGridView1.SelectedRows[0].DefaultCellStyle.BackColor == Color.Gray)
-            {
-                dev_listCat = "";
-                dataGridView1.SelectedRows[0].DefaultCellStyle.SelectionBackColor = Color.Blue;
-                dataGridView1.SelectedRows[0].DefaultCellStyle.BackColor = Color.White;
-                dataGridView1.Rows.Remove(dataGridView1.SelectedRows[0]);
-                count--;
-                Console.WriteLine("삭제");
-            }
-            else if (count == 1 && dataGridView1.SelectedRows[0].DefaultCellStyle.BackColor != Color.Gray)
-            {
-                dev_listCat = "";
-                dataGridView1.SelectedRows[0].DefaultCellStyle.SelectionBackColor = Color.Blue;
-                dataGridView1.SelectedRows[0].DefaultCellStyle.BackColor = Color.White;
-                dataGridView1.Rows.Remove(dataGridView1.SelectedRows[0]);
-            }
-            else if (count == 0 && dataGridView1.Rows.Count > 0)
-            {
-                dev_listCat = "";
-                dataGridView1.SelectedRows[0].DefaultCellStyle.SelectionBackColor = Color.Blue;
-                dataGridView1.SelectedRows[0].DefaultCellStyle.BackColor = Color.White;
-                dataGridView1.Rows.Remove(dataGridView1.SelectedRows[0]);
-            }
-        }
-
-        private void Up_Click(object sender, EventArgs e)
-        {
-            if (dataGridView1.CurrentRow != null)
-            {
-                int rows_cnt = dataGridView1.CurrentRow.Index;
-
-                if (rows_cnt > 0)
-                {
-                    rows_cnt -= 1;
-                }
-                dataGridView1.CurrentCell = dataGridView1.Rows[rows_cnt].Cells[0];
-            }
-
-        }
-
-        private void Down_Click(object sender, EventArgs e)
-        {
-            if (dataGridView1.CurrentRow != null)
-            {
-                int rows_max = dataGridView1.Rows.Count - 1;
-                int rows_cnt = dataGridView1.CurrentRow.Index;
-
-                if (rows_cnt < rows_max)
-                {
-                    rows_cnt += 1;
-                }
-
-                dataGridView1.CurrentCell = dataGridView1.Rows[rows_cnt].Cells[0];
-            }
-        }
-
-        private void Manager_check_ItemCheck(object sender, ItemCheckEventArgs e)
-        {
-            if (e.NewValue == CheckState.Checked)
-            {
-                for (int cnt = 0; cnt < Manager_check.Items.Count; ++cnt)
-                {
-                    if (e.Index != cnt)
-                    {
-                        Manager_check.SetItemChecked(cnt, false);
-                    }
-                }
-            }
-        }
-
-        private void update_Click(object sender, EventArgs e)
+        #endregion
+        //------------------------------------------------------------------------------------------------------
+        #region Update DevelopList
+        //------------------------------------------------------------------------------------------------------
+        private void UpdateDev(string num)
         {
             conn.Open();
 
@@ -570,8 +417,8 @@ namespace Test_Login
                                                 "WHERE seq = @seq";
 
             SqlCommand cmd = new SqlCommand(sqlstr, conn);
-            //
-            cmd.Parameters.AddWithValue("@seq", dev_seq);
+
+            cmd.Parameters.AddWithValue("@seq", num);
             cmd.Parameters.AddWithValue("@dev_class", dev_class.Text);
             cmd.Parameters.AddWithValue("@dev_type", dev_type.Text);
             cmd.Parameters.AddWithValue("@document_num", document_num.Text);
@@ -617,17 +464,190 @@ namespace Test_Login
                 cmd.Parameters.AddWithValue("@bizbank_yn", "N");
             }
 
-
-
             cmd.Parameters.AddWithValue("@bizbank_date", bizbank_date.Text);
 
             cmd.ExecuteNonQuery();
             conn.Close();
+
+        }
+        #endregion
+        //------------------------------------------------------------------------------------------------------
+        #region Form Load 실행
+        //------------------------------------------------------------------------------------------------------
+        private void develop_Project_update_Load(object sender, EventArgs e)
+        {
+            
+            dev_class.SelectedIndex = 0;
+            dev_cat1.SelectedIndex = 0;
+
+            call_Manager();
+            call_dev_pro(dev_seq);
+
+            dev_cat1.Text = cat1;
+            dev_cat2.Text = cat2;
+            dev_cat3.Text = cat3;
+            dev_cat4.Text = cat4;
+
+            call_devCat();
+            add_Click(sender, e);
+            Manager_check.SelectedValue = manager;
+            Manager_check.SetItemChecked(Manager_check.FindStringExact(manager), true);
+            
+        }
+        #endregion
+        //------------------------------------------------------------------------------------------------------
+        #region Click Event
+        //------------------------------------------------------------------------------------------------------
+        private void insert_exit_Click(object sender, EventArgs e)
+        {
+            exit = true;
+            this.Close();
+        }
+        //------------------------------------------------------------------------------------------------------
+        private void search_Click(object sender, EventArgs e)
+        {
+            call_devCat();
+        }
+        //------------------------------------------------------------------------------------------------------
+        private void add_Click(object sender, EventArgs e)
+        {
+            if (count == 0 && dataGridView1.Rows.Count > 0)
+            {
+                call_devlistCat();
+                dataGridView1.SelectedRows[0].DefaultCellStyle.SelectionBackColor = Color.Gray;
+                dataGridView1.SelectedRows[0].DefaultCellStyle.BackColor = Color.Gray;
+                count++;
+                Console.WriteLine(dev_listCat);
+            }
+        }
+        //------------------------------------------------------------------------------------------------------
+        private void delete_Click(object sender, EventArgs e)
+        {
+            if (count == 1 && dataGridView1.SelectedRows[0].DefaultCellStyle.BackColor == Color.Gray)
+            {
+                dev_listCat = "";
+                dataGridView1.SelectedRows[0].DefaultCellStyle.SelectionBackColor = Color.Blue;
+                dataGridView1.SelectedRows[0].DefaultCellStyle.BackColor = Color.White;
+                dataGridView1.Rows.Remove(dataGridView1.SelectedRows[0]);
+                count--;
+                Console.WriteLine("삭제");
+            }
+            else if (count == 1 && dataGridView1.SelectedRows[0].DefaultCellStyle.BackColor != Color.Gray)
+            {
+                dev_listCat = "";
+                dataGridView1.SelectedRows[0].DefaultCellStyle.SelectionBackColor = Color.Blue;
+                dataGridView1.SelectedRows[0].DefaultCellStyle.BackColor = Color.White;
+                dataGridView1.Rows.Remove(dataGridView1.SelectedRows[0]);
+            }
+            else if (count == 0 && dataGridView1.Rows.Count > 0)
+            {
+                dev_listCat = "";
+                dataGridView1.SelectedRows[0].DefaultCellStyle.SelectionBackColor = Color.Blue;
+                dataGridView1.SelectedRows[0].DefaultCellStyle.BackColor = Color.White;
+                dataGridView1.Rows.Remove(dataGridView1.SelectedRows[0]);
+            }
+        }
+        //------------------------------------------------------------------------------------------------------
+        private void Up_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.CurrentRow != null)
+            {
+                int rows_cnt = dataGridView1.CurrentRow.Index;
+
+                if (rows_cnt > 0)
+                {
+                    rows_cnt -= 1;
+                }
+                dataGridView1.CurrentCell = dataGridView1.Rows[rows_cnt].Cells[0];
+            }
+
+        }
+        //------------------------------------------------------------------------------------------------------
+        private void Down_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.CurrentRow != null)
+            {
+                int rows_max = dataGridView1.Rows.Count - 1;
+                int rows_cnt = dataGridView1.CurrentRow.Index;
+
+                if (rows_cnt < rows_max)
+                {
+                    rows_cnt += 1;
+                }
+
+                dataGridView1.CurrentCell = dataGridView1.Rows[rows_cnt].Cells[0];
+            }
+        }
+        //------------------------------------------------------------------------------------------------------
+        private void Manager_check_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            if (e.NewValue == CheckState.Checked)
+            {
+                for (int cnt = 0; cnt < Manager_check.Items.Count; ++cnt)
+                {
+                    if (e.Index != cnt)
+                    {
+                        Manager_check.SetItemChecked(cnt, false);
+                    }
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------------------------
+        private void update_Click(object sender, EventArgs e)
+        {
+            UpdateDev(dev_seq);
 
             exit = true;
             this.Close();
             dev_Main.Visible = true;
             dev_Main.call_developList();
         }
+        //------------------------------------------------------------------------------------------------------
+        #endregion
+        //------------------------------------------------------------------------------------------------------
+        #region TextChanged Event
+        //------------------------------------------------------------------------------------------------------
+        private void dev_class_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(access)
+            {
+                call_devClassList(dev_class.Text);
+            }
+            
+        }
+        //------------------------------------------------------------------------------------------------------
+        private void dev_type_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (access)
+            {
+                call_devTypeList(dev_class.Text, dev_type.Text);
+            }
+        }
+        //------------------------------------------------------------------------------------------------------
+        private void dev_cat1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (access)
+            {
+                call_devCat2StyleList(dev_cat1.Text);
+            }
+        }
+        //------------------------------------------------------------------------------------------------------
+        private void dev_cat2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (access)
+            {
+                call_devCat3StyleList(dev_cat1.Text, dev_cat2.Text);
+            }
+        }
+        //------------------------------------------------------------------------------------------------------
+        private void dev_cat3_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (access)
+            {
+                call_devCat4StyleList(dev_cat1.Text, dev_cat2.Text, dev_cat3.Text);
+            }
+        }
+        #endregion
+        //------------------------------------------------------------------------------------------------------
     }
 }

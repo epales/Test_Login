@@ -13,6 +13,9 @@ namespace Test_Login
 {
     public partial class develop_Project_Insert : Form
     {
+        //------------------------------------------------------------------------------------------------------
+        #region 변수 선언, DB 초기화
+        //------------------------------------------------------------------------------------------------------
         static DBConnection DB = new DBConnection();
         SqlConnection conn = new SqlConnection(DB.DBstr());
 
@@ -21,22 +24,30 @@ namespace Test_Login
         string dev_listCat ="";
         int count = 0;
         public string userId { get; set; }
-
+        #endregion
+        //------------------------------------------------------------------------------------------------------
+        #region Form 이동
+        //------------------------------------------------------------------------------------------------------
         public develop_Project_Insert(developMain devMain)
         {
             developMain = devMain;
             InitializeComponent();
         }
-
+        #endregion
+        //------------------------------------------------------------------------------------------------------
+        #region Form Load 실행
+        //------------------------------------------------------------------------------------------------------
         private void develop_Project_Insert_Load(object sender, EventArgs e)
         {
             reg_id.Text = userId;
             dev_class.SelectedIndex = 0;
             dev_cat1.SelectedIndex = 0;
             call_Manager();
-            
         }
-
+        #endregion
+        //------------------------------------------------------------------------------------------------------
+        #region 변수 입력
+        //------------------------------------------------------------------------------------------------------
         private void call_Manager()
         {
             SqlDataAdapter adapter = new SqlDataAdapter();
@@ -55,6 +66,10 @@ namespace Test_Login
             Manager_check.ValueMember = "user_name";
             
         }
+        #endregion
+        //------------------------------------------------------------------------------------------------------
+        #region Call CategoryList
+        //------------------------------------------------------------------------------------------------------
         private void call_devCat2StyleList(string devcat1)
         {
             SqlDataAdapter adapter = new SqlDataAdapter();
@@ -70,6 +85,7 @@ namespace Test_Login
             dev_cat2.DataSource = table;
             dev_cat2.DisplayMember = "dev_cat2";
         }
+        //------------------------------------------------------------------------------------------------------
         private void call_devCat3StyleList(string devcat1, string devcat2)
         {
             SqlDataAdapter adapter = new SqlDataAdapter();
@@ -87,6 +103,7 @@ namespace Test_Login
             dev_cat3.DataSource = table;
             dev_cat3.DisplayMember = "dev_cat3";
         }
+        //------------------------------------------------------------------------------------------------------
         private void call_devCat4StyleList(string devcat1, string devcat2, string devcat3)
         {
             SqlDataAdapter adapter = new SqlDataAdapter();
@@ -107,6 +124,7 @@ namespace Test_Login
             dev_cat4.DataSource = table;
             dev_cat4.DisplayMember = "dev_cat4";
         }
+        //------------------------------------------------------------------------------------------------------
         private void call_devClassList(string devClass)
         {
             SqlDataAdapter adapter = new SqlDataAdapter();
@@ -125,6 +143,7 @@ namespace Test_Login
             dev_type.ValueMember = "dev_type";
 
         }
+        //------------------------------------------------------------------------------------------------------
         private void call_devTypeList(string devClass, string devType)
         {
             SqlDataAdapter adapter = new SqlDataAdapter();
@@ -144,6 +163,7 @@ namespace Test_Login
             dev_status.ValueMember = "dev_status";
 
         }
+        //------------------------------------------------------------------------------------------------------
         private void call_devCat()
         {
             conn.Open();
@@ -192,6 +212,7 @@ namespace Test_Login
             reader.Close();
             conn.Close();
         }
+        //------------------------------------------------------------------------------------------------------
         private void call_devlistCat()
         {
             conn.Open();
@@ -221,6 +242,10 @@ namespace Test_Login
 
 
         }
+        #endregion
+        //------------------------------------------------------------------------------------------------------
+        #region DevelopList Insert
+        //------------------------------------------------------------------------------------------------------
         private void InsertDev()
         {
             conn.Open();
@@ -330,7 +355,10 @@ namespace Test_Login
             developMain.Visible = true;
             developMain.call_developList();
         }
-
+        #endregion
+        //------------------------------------------------------------------------------------------------------
+        #region Form Closed
+        //------------------------------------------------------------------------------------------------------
         private void develop_Project_Insert_FormClosed(object sender, FormClosedEventArgs e)
         {
            /* if (exit)
@@ -339,43 +367,21 @@ namespace Test_Login
             }
             Application.Exit();*/
         }
-
+        #endregion
+        //------------------------------------------------------------------------------------------------------
+        #region Click Event
+        //------------------------------------------------------------------------------------------------------
         private void Exit_Click(object sender, EventArgs e)
         {
             exit = true;
             this.Close();
         }
-
-        private void dev_class_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            call_devClassList(dev_class.Text);
-        }
-
-        private void dev_type_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            call_devTypeList(dev_class.Text, dev_type.Text);
-        }
-
-        private void dev_cat1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            call_devCat2StyleList(dev_cat1.Text);
-        }
-
-        private void dev_cat2_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            call_devCat3StyleList(dev_cat1.Text, dev_cat2.Text);
-        }
-
-        private void dev_cat3_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            call_devCat4StyleList(dev_cat1.Text, dev_cat2.Text, dev_cat3.Text);
-        }
-
+        //------------------------------------------------------------------------------------------------------
         private void search_Click(object sender, EventArgs e)
         {
             call_devCat();
         }
-
+        //------------------------------------------------------------------------------------------------------
         private void add_Click(object sender, EventArgs e)
         {
             if (count == 0 && dataGridView1.Rows.Count > 0)
@@ -387,7 +393,7 @@ namespace Test_Login
                 Console.WriteLine(dev_listCat);
             }
         }
-
+        //------------------------------------------------------------------------------------------------------
         private void delete_Click(object sender, EventArgs e)
         {
             if (count == 1 && dataGridView1.SelectedRows[0].DefaultCellStyle.BackColor == Color.Gray)
@@ -414,7 +420,7 @@ namespace Test_Login
                 dataGridView1.Rows.Remove(dataGridView1.SelectedRows[0]);
             }
         }
-
+        //------------------------------------------------------------------------------------------------------
         private void Up_Click(object sender, EventArgs e)
         {
             if (dataGridView1.CurrentRow != null)
@@ -427,14 +433,14 @@ namespace Test_Login
                 }
                 dataGridView1.CurrentCell = dataGridView1.Rows[rows_cnt].Cells[0];
             }
-            
-        }
 
+        }
+        //------------------------------------------------------------------------------------------------------
         private void Down_Click(object sender, EventArgs e)
         {
             if (dataGridView1.CurrentRow != null)
             {
-                int rows_max = dataGridView1.Rows.Count -1;
+                int rows_max = dataGridView1.Rows.Count - 1;
                 int rows_cnt = dataGridView1.CurrentRow.Index;
 
                 if (rows_cnt < rows_max)
@@ -445,7 +451,7 @@ namespace Test_Login
                 dataGridView1.CurrentCell = dataGridView1.Rows[rows_cnt].Cells[0];
             }
         }
-
+        //------------------------------------------------------------------------------------------------------
         private void Manager_check_ItemCheck(object sender, ItemCheckEventArgs e)
         {
 
@@ -459,9 +465,9 @@ namespace Test_Login
                     }
                 }
             }
-            
-        }
 
+        }
+        //------------------------------------------------------------------------------------------------------
         private void Insert_Click(object sender, EventArgs e)
         {
             if (dev_listCat == "")
@@ -476,11 +482,10 @@ namespace Test_Login
             }
             InsertDev();
         }
-
-       
+        //------------------------------------------------------------------------------------------------------
         ///초기화///
-       
-        private void reset_Click(object sender, EventArgs e) 
+        //------------------------------------------------------------------------------------------------------
+        private void reset_Click(object sender, EventArgs e)
         {
             dev_class.Text = "전체";
             dev_type.Text = "전체";
@@ -511,14 +516,37 @@ namespace Test_Login
             for (int cnt = 0; cnt < Manager_check.Items.Count; ++cnt)
             {
                 Manager_check.SetItemChecked(cnt, false);
-                    
             }
-            
         }
-
-        private void Manager_check_SelectedIndexChanged(object sender, EventArgs e)
+        #endregion
+        //------------------------------------------------------------------------------------------------------
+        #region TextChanged Event
+        //------------------------------------------------------------------------------------------------------
+        private void dev_class_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            call_devClassList(dev_class.Text);
         }
+        //------------------------------------------------------------------------------------------------------
+        private void dev_type_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            call_devTypeList(dev_class.Text, dev_type.Text);
+        }
+        //------------------------------------------------------------------------------------------------------
+        private void dev_cat1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            call_devCat2StyleList(dev_cat1.Text);
+        }
+        //------------------------------------------------------------------------------------------------------
+        private void dev_cat2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            call_devCat3StyleList(dev_cat1.Text, dev_cat2.Text);
+        }
+        //------------------------------------------------------------------------------------------------------
+        private void dev_cat3_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            call_devCat4StyleList(dev_cat1.Text, dev_cat2.Text, dev_cat3.Text);
+        }
+        #endregion
+        //------------------------------------------------------------------------------------------------------
     }
 }

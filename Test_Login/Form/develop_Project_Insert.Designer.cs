@@ -308,7 +308,6 @@
             this.Manager_check.TabIndex = 45;
             this.Manager_check.ThreeDCheckBoxes = true;
             this.Manager_check.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.Manager_check_ItemCheck);
-            this.Manager_check.SelectedIndexChanged += new System.EventHandler(this.Manager_check_SelectedIndexChanged);
             // 
             // complete_date
             // 

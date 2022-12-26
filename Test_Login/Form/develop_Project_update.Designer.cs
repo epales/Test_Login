@@ -685,7 +685,6 @@
             this.Controls.Add(this.groupBox3);
             this.Name = "develop_Project_update";
             this.Text = "develop_Project_update";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.develop_Project_update_FormClosed);
             this.Load += new System.EventHandler(this.develop_Project_update_Load);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
