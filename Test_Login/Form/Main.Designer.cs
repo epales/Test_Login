@@ -44,6 +44,8 @@
             this.grade = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.Alarm = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // Logout
@@ -187,12 +189,33 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(132, 9);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(33, 12);
+            this.label2.TabIndex = 15;
+            this.label2.Text = "알림:";
+            // 
+            // Alarm
+            // 
+            this.Alarm.AutoSize = true;
+            this.Alarm.Location = new System.Drawing.Point(172, 9);
+            this.Alarm.Name = "Alarm";
+            this.Alarm.Size = new System.Drawing.Size(27, 12);
+            this.Alarm.TabIndex = 16;
+            this.Alarm.Text = "? 건";
+            this.Alarm.Click += new System.EventHandler(this.Alarm_Click);
+            // 
             // main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(234, 261);
+            this.Controls.Add(this.Alarm);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.grade);
             this.Controls.Add(this.label6);
@@ -213,7 +236,7 @@
             this.Location = new System.Drawing.Point(700, 300);
             this.Name = "main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "0";
+            this.Text = "Main";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.main_FormClosed);
             this.Load += new System.EventHandler(this.main_Load);
             this.ResumeLayout(false);
@@ -238,5 +261,7 @@
         private System.Windows.Forms.Label grade;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label Alarm;
     }
 }

@@ -84,6 +84,7 @@
             this.dev_cat2 = new System.Windows.Forms.ComboBox();
             this.dev_cat4 = new System.Windows.Forms.ComboBox();
             this.dev_cat3 = new System.Windows.Forms.ComboBox();
+            this.All_List = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DataGridView)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -360,6 +361,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.All_List);
             this.groupBox2.Controls.Add(this.oneYear);
             this.groupBox2.Controls.Add(this.sixMonths);
             this.groupBox2.Controls.Add(this.threeMonths);
@@ -466,9 +468,9 @@
             // 
             // searchDev
             // 
-            this.searchDev.Location = new System.Drawing.Point(591, 111);
+            this.searchDev.Location = new System.Drawing.Point(594, 111);
             this.searchDev.Name = "searchDev";
-            this.searchDev.Size = new System.Drawing.Size(60, 21);
+            this.searchDev.Size = new System.Drawing.Size(77, 21);
             this.searchDev.TabIndex = 25;
             this.searchDev.Text = "조회";
             this.searchDev.UseVisualStyleBackColor = true;
@@ -687,6 +689,16 @@
             this.dev_cat3.TabIndex = 13;
             this.dev_cat3.SelectedIndexChanged += new System.EventHandler(this.dev_cat3_SelectedIndexChanged);
             // 
+            // All_List
+            // 
+            this.All_List.Location = new System.Drawing.Point(677, 111);
+            this.All_List.Name = "All_List";
+            this.All_List.Size = new System.Drawing.Size(73, 21);
+            this.All_List.TabIndex = 32;
+            this.All_List.Text = "전체보기";
+            this.All_List.UseVisualStyleBackColor = true;
+            this.All_List.Click += new System.EventHandler(this.All_List_Click);
+            // 
             // developMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -765,5 +777,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column16;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column17;
         private System.Windows.Forms.DataGridViewButtonColumn Column18;
+        private System.Windows.Forms.Button All_List;
     }
 }

@@ -657,6 +657,11 @@ namespace Test_Login
         {
             dateTimePicker1.Value = dateTimePicker2.Value.AddYears(-1);
         }
+
+        private void All_List_Click(object sender, EventArgs e)
+        {
+            call_developList();
+        }
         //------------------------------------------------------------------------------------------------------
         #endregion
         //------------------------------------------------------------------------------------------------------
