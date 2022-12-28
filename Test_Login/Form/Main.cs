@@ -186,5 +186,9 @@ namespace Test_Login
             this.Visible = false;
             dep.ShowDialog();
         }
+
+        private void Alarm_Click(object sender, EventArgs e)
+        {
+        }
     }
 }

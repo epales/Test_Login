@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test_Login", "Test_Login\Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tetris", "..\Tetris\Tetris\Tetris.csproj", "{78807AC9-D4A6-452E-848C-A8A99C6361B7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NewFolder1", "NewFolder1", "{71836A4A-5938-4FF6-BCEA-08BB098DE38C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +26,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{02963637-6BB0-40B9-89E2-FBCF3CB69636} = {71836A4A-5938-4FF6-BCEA-08BB098DE38C}
+		{78807AC9-D4A6-452E-848C-A8A99C6361B7} = {71836A4A-5938-4FF6-BCEA-08BB098DE38C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1389575F-9555-4267-BEE1-952A212C2BB1}
