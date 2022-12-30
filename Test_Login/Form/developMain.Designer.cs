@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(developMain));
             this.dev_insert = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -55,6 +56,7 @@
             this.Column17 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column18 = new System.Windows.Forms.DataGridViewButtonColumn();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.All_List = new System.Windows.Forms.Button();
             this.oneYear = new System.Windows.Forms.Button();
             this.sixMonths = new System.Windows.Forms.Button();
             this.threeMonths = new System.Windows.Forms.Button();
@@ -84,7 +86,7 @@
             this.dev_cat2 = new System.Windows.Forms.ComboBox();
             this.dev_cat4 = new System.Windows.Forms.ComboBox();
             this.dev_cat3 = new System.Windows.Forms.ComboBox();
-            this.All_List = new System.Windows.Forms.Button();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DataGridView)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -397,6 +399,16 @@
             this.groupBox2.TabIndex = 26;
             this.groupBox2.TabStop = false;
             // 
+            // All_List
+            // 
+            this.All_List.Location = new System.Drawing.Point(677, 111);
+            this.All_List.Name = "All_List";
+            this.All_List.Size = new System.Drawing.Size(73, 21);
+            this.All_List.TabIndex = 32;
+            this.All_List.Text = "전체보기";
+            this.All_List.UseVisualStyleBackColor = true;
+            this.All_List.Click += new System.EventHandler(this.All_List_Click);
+            // 
             // oneYear
             // 
             this.oneYear.Location = new System.Drawing.Point(674, 22);
@@ -689,15 +701,10 @@
             this.dev_cat3.TabIndex = 13;
             this.dev_cat3.SelectedIndexChanged += new System.EventHandler(this.dev_cat3_SelectedIndexChanged);
             // 
-            // All_List
+            // timer1
             // 
-            this.All_List.Location = new System.Drawing.Point(677, 111);
-            this.All_List.Name = "All_List";
-            this.All_List.Size = new System.Drawing.Size(73, 21);
-            this.All_List.TabIndex = 32;
-            this.All_List.Text = "전체보기";
-            this.All_List.UseVisualStyleBackColor = true;
-            this.All_List.Click += new System.EventHandler(this.All_List_Click);
+            this.timer1.Enabled = true;
+            this.timer1.Interval = 3000;
             // 
             // developMain
             // 
@@ -778,5 +785,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column17;
         private System.Windows.Forms.DataGridViewButtonColumn Column18;
         private System.Windows.Forms.Button All_List;
+        private System.Windows.Forms.Timer timer1;
     }
 }

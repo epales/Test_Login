@@ -46,6 +46,7 @@
             this.button2 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.Alarm = new System.Windows.Forms.Label();
+            this.alarm_check = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Logout
@@ -203,10 +204,20 @@
             this.Alarm.AutoSize = true;
             this.Alarm.Location = new System.Drawing.Point(172, 9);
             this.Alarm.Name = "Alarm";
-            this.Alarm.Size = new System.Drawing.Size(27, 12);
+            this.Alarm.Size = new System.Drawing.Size(11, 12);
             this.Alarm.TabIndex = 16;
-            this.Alarm.Text = "? 건";
+            this.Alarm.Text = "0";
             this.Alarm.Click += new System.EventHandler(this.Alarm_Click);
+            // 
+            // alarm_check
+            // 
+            this.alarm_check.Location = new System.Drawing.Point(134, 31);
+            this.alarm_check.Name = "alarm_check";
+            this.alarm_check.Size = new System.Drawing.Size(75, 23);
+            this.alarm_check.TabIndex = 17;
+            this.alarm_check.Text = "알림 확인";
+            this.alarm_check.UseVisualStyleBackColor = true;
+            this.alarm_check.Click += new System.EventHandler(this.alarm_check_Click);
             // 
             // main
             // 
@@ -214,6 +225,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(234, 261);
+            this.Controls.Add(this.alarm_check);
             this.Controls.Add(this.Alarm);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.button2);
@@ -263,5 +275,6 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label Alarm;
+        private System.Windows.Forms.Button alarm_check;
     }
 }

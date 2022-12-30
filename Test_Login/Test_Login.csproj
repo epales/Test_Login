@@ -95,6 +95,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Form\alarm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\alarm.Designer.cs">
+      <DependentUpon>alarm.cs</DependentUpon>
+    </Compile>
     <Compile Include="DBConnection.cs" />
     <Compile Include="Form\develop_Project_update.cs">
       <SubType>Form</SubType>
@@ -146,6 +152,9 @@
     <Compile Include="Form\updateUser.Designer.cs">
       <DependentUpon>updateUser.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Form\alarm.resx">
+      <DependentUpon>alarm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form\developMain.resx">
       <DependentUpon>developMain.cs</DependentUpon>
     </EmbeddedResource>

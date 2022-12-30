@@ -19,6 +19,7 @@ namespace Test_Login
         static DBConnection DB = new DBConnection();
         SqlConnection conn = new SqlConnection(DB.DBstr());
         login loginForm;
+        alarm alarm;
         bool logout;
         #endregion
 
@@ -32,7 +33,10 @@ namespace Test_Login
             InitializeComponent();
             loginForm = login;
         }
-
+        public main()
+        {
+            InitializeComponent();
+        }
         #endregion
 
         #region 로그아웃 기능
@@ -51,7 +55,7 @@ namespace Test_Login
         #endregion
 
         #region 메인화면
-        private void main_Load(object sender, EventArgs e)
+        public void main_Load(object sender, EventArgs e)
         {
             Console.WriteLine("=============== 메인화면 창 활성화 ===============");
            
@@ -93,6 +97,7 @@ namespace Test_Login
             switchTeamData(team.Text);
             switchLevelData(level.Text);
             switchGradeData(grade.Text);
+            call_Alarm();
         }
         #endregion
 
@@ -164,6 +169,11 @@ namespace Test_Login
         {
             if (logout)
             {
+                if (!alarm_check.Enabled)
+                {
+                    alarm.reset();
+                }
+
                 loginForm.reset();
                 return;
             }
@@ -181,14 +191,46 @@ namespace Test_Login
 
         private void button2_Click(object sender, EventArgs e)
         {
+
+            if (!alarm_check.Enabled)
+            {
+                alarm.reset();
+            }
+
+
             developMain dep = new developMain(this);
             dep.userId = userId;
             this.Visible = false;
             dep.ShowDialog();
+            
         }
 
         private void Alarm_Click(object sender, EventArgs e)
         {
+        }
+        private void call_Alarm()
+        {
+            conn.Open();
+            
+            string sql = "SELECT COUNT(*) FROM DevelopList WHERE Manage_people = @people AND alarm = 1";
+
+            SqlCommand cmd = new SqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@people", name.Text);
+            Int32 count = (Int32)cmd.ExecuteScalar();
+            Alarm.Text = count.ToString();
+            conn.Close();
+        }
+
+        private void alarm_check_Click(object sender, EventArgs e)
+        {
+            alarm alarmF = new alarm();
+            alarm = alarmF;
+
+            alarm.Show();
+
+            alarm.username = userId;
+            alarm.alarm_check = alarm_check;
+            alarm_check.Enabled = false;
         }
     }
 }
